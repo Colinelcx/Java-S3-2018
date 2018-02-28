@@ -1,7 +1,6 @@
 public class Monde {
 	private int dimX;
 	private  int dimY;
-	private double seuil;
 	private int noGener;
 	private boolean [][] tabCells;
 
@@ -15,11 +14,23 @@ public class Monde {
 					tabCells[x][y]=true;
 			}
 		}
-		noGener=1;
+		noGener=0;
+	}
+
+	public Monde(int dimX, int dimY, int x, int y, boolean[][] motif){
+		this.dimX = dimX;
+		this.dimY = dimY;
+		tabCells = new boolean[dimX][dimY];
+		for(int i=0; i<motif.length; i++){
+			for (int j=0; j<motif[0].length; j++){
+				tabCells[i+x][j+y] = motif[i][j];
+			}
+		}
+		noGener = 0;
 	}
 
 	public String toString() {
-		String s = "Monde n°"+noGener + "\n";
+		String s = "Monde de génération n°"+noGener + "\n";
 		for (int x=0; x<dimX; x++){
 			for (int y=0; y<dimY; y++){
 				if (tabCells[x][y])
@@ -32,6 +43,18 @@ public class Monde {
 		return s;
 	}
 
+	public int getH(){
+		return dimY;
+	}
+
+	public int getL(){
+		return dimX;
+	}
+
+	public boolean get(int i, int j){
+		return tabCells[i][j];
+	}
+
 	public int nbVoisins(int nuLign, int nuCol){
 		int compt = 0;
 		for (int x=nuLign-1; x<=nuLign+1; x++){
@@ -41,7 +64,7 @@ public class Monde {
 			}
 		}
 		if (compt>0){
-			if (tabCells[nuLign][nuLign] == true)
+			if (tabCells[nuLign][nuCol] == true)
 				compt--;
 		}
 		return compt;
